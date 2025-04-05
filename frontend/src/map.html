@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Google Maps - Indian Cities</title>
+    <style>
+        #map {
+            height: 100vh;
+            width: 100vw;
+        }
+        #floating-panel {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        button {
+            padding: 6px 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="floating-panel">
+        <b>Start:</b>
+        <select id="start"></select>
+        <b>End:</b>
+        <select id="end"></select>
+        <button onclick="openGoogleMaps()">Get Directions</button>
+    </div>
+    <div id="map"></div>
+
+    <script>
+        function initMap() {
+            // Initialize the map centered on India
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 5,
+                center: { lat: 20.5937, lng: 78.9629 } // Center of India
+            });
+
+            // List of Indian cities
+            const locations = [
+                "Delhi", "Mumbai", "Bangalore", "Hyderabad", "Chennai",
+                "Kolkata", "Ahmedabad", "Pune", "Jaipur", "Lucknow",
+                "Kanpur", "Nagpur", "Indore", "Thane", "Bhopal",
+                "Visakhapatnam", "Pimpri-Chinchwad", "Patna", "Vadodara", "Ghaziabad",
+                "Ludhiana", "Agra", "Nashik", "Faridabad", "Meerut",
+                "Rajkot", "Kalyan-Dombivli", "Vasai-Virar", "Varanasi", "Srinagar",
+                "Aurangabad", "Dhanbad", "Amritsar", "Navi Mumbai", "Allahabad",
+                "Howrah", "Ranchi", "Gwalior", "Jabalpur", "Coimbatore",
+                "Vijayawada", "Jodhpur", "Madurai", "Raipur", "Kota",
+                "Guwahati", "Chandigarh", "Solapur", "Hubli-Dharwad", "Bareilly",
+                "Moradabad", "Mysore", "Gurgaon", "Aligarh", "Jalandhar",
+                "Tiruchirappalli", "Bhubaneswar", "Salem", "Mira-Bhayandar", "Thiruvananthapuram"
+            ];
+
+            function populateDropdown(id) {
+                let select = document.getElementById(id);
+                locations.forEach(city => {
+                    let option = document.createElement("option");
+                    option.value = city;
+                    option.textContent = city;
+                    select.appendChild(option);
+                });
+            }
+
+            // Populate dropdowns
+            populateDropdown("start");
+            populateDropdown("end");
+        }
+
+        function openGoogleMaps() {
+            var start = document.getElementById("start").value;
+            var end = document.getElementById("end").value;
+
+            if (start && end) {
+                var googleMapsURL = `https://www.google.com/maps/dir/${encodeURIComponent(start)}/${encodeURIComponent(end)}`;
+                window.open(googleMapsURL, "_blank");
+            } else {
+                alert("Please select both start and end locations.");
+            }
+        }
+    </script>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlSA2jtERl5CBnqfVnkBiLQqrNwmDzOPY&callback=initMap"></script>
+</body>
+</html>

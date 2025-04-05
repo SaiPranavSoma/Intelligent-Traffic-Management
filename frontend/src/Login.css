@@ -1,0 +1,163 @@
+/* General Styles */
+
+/* Login Container */
+.login-container {
+  width: 350px;
+  padding: 30px;
+  text-align: center;
+  background: #2f2d2d;
+  border-radius: 15px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Heading */
+h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* User Type Selection */
+.user-type-selection {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.user-type-selection button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease-in-out;
+  font-weight: bold;
+}
+
+/* Traffic Light Colors - Updated */
+.public-btn {
+  background: #07c707; /* True Green */
+  color: white;
+  box-shadow: 0px 4px 10px rgba(4, 127, 4, 0.3);
+}
+
+.public-btn:hover, .public-btn.active {
+  background: #00b300; /* Brighter Green */
+  transform: scale(1.05);
+}
+
+.police-btn {
+  background: #ffcc00; /* True Yellow */
+  color: black;
+  box-shadow: 0px 4px 10px rgba(255, 204, 0, 0.3);
+}
+
+.police-btn:hover, .police-btn.active {
+  background: #ffdb4d; /* Lighter Yellow */
+  transform: scale(1.05);
+}
+
+.admin-btn {
+  background: #ff0000; /* True Red */
+  color: white;
+  box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.3);
+}
+
+.admin-btn:hover, .admin-btn.active {
+  background: #cc0000; /* Darker Red */
+  transform: scale(1.05);
+}
+
+/* Form Styling */
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form input {
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #c2b7b7;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.login-form input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+/* Login Button */
+.login-form button {
+  padding: 12px;
+  border: none;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.3s ease-in-out;
+}
+
+.login-form button:hover {
+  background: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Change placeholder text color */
+.login-form input::placeholder {
+  color: black !important;  /* Makes placeholder clearly visible */
+  opacity: 1;  /* Ensures full opacity */
+  font-weight: bold; /* Makes it stand out */
+}
+
+/* Forgot Password */
+.forgot-password {
+  margin-top: 15px;
+}
+
+.forgot-password a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
+/* Register Link */
+.register-link {
+  margin-top: 15px;
+}
+
+.register-link a {
+  color: #007bff;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+

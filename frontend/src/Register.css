@@ -1,0 +1,129 @@
+/* General Page Styling */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to right, #1a1a1a, #292929); /* Dark theme */
+
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8); /* 60% Black Tint for a Darker Effect */
+}
+
+/* Register Container */
+.register-container {
+  width: 380px;
+  padding: 30px;
+  border-radius: 15px;
+  background: white; /* White card-like background */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+/* Form Heading */
+.register-container h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #222;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+/* User Role Selection Buttons */
+.role-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.role-buttons button {
+  flex: 1;
+  margin: 0 5px;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+/* Individual Role Button Styles */
+.public-btn {
+  background: #28a745; /* Green */
+}
+
+.police-btn {
+  background: #ffc107; /* Yellow */
+  color: black;
+}
+
+.admin-btn {
+  background: #dc3545; /* Red */
+}
+
+/* Input Fields */
+.register-form input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  background: rgb(248, 246, 246);
+  color: #333;
+  outline: none;
+  transition: 0.3s ease-in-out;
+}
+
+/* Placeholder Text */
+.register-form input::placeholder {
+  color: #060606;
+}
+
+/* Register Button */
+.register-form button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #007bff; /* Blue */
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.register-form button:hover {
+  background: #0056b3; /* Darker blue */
+}
+
+/* Already have an account */
+.login-link {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #333;
+}
+
+.login-link a {
+  color: #007bff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+

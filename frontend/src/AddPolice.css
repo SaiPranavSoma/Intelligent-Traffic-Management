@@ -1,0 +1,66 @@
+.add-police-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #4d4f51;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: black; /* Ensure text inside the container is black */
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: black; /* Changed from white to black */
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  color: black; /* Ensure input text is black */
+  background-color: white; /* Set background to white for contrast */
+}
+
+/* Fix for placeholder text visibility */
+input::placeholder {
+  color: rgb(255, 255, 255) !important; /* Force white placeholder text */
+  opacity: 0.8 !important; /* Make sure it's visible */
+}
+
+/* Fix for WebKit browsers (Chrome, Safari) */
+input:-webkit-input-placeholder {
+  color: rgb(255, 255, 255) !important;
+}
+
+/* Fix for Firefox */
+input::-moz-placeholder {
+  color: rgb(255, 255, 255) !important;
+}
+
+/* Fix for Edge */
+input:-ms-input-placeholder {
+  color: rgb(255, 255, 255) !important;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: black; /* Changed from white to black */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.message {
+  margin-bottom: 15px;
+  color: black; /* Changed from green to black */
+}

@@ -1,0 +1,199 @@
+/* General Styles */
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #121212;
+  color: rgb(255, 255, 255);
+}
+
+/* Centered Public Container */
+/* Ensure the feature grid is centered */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 30px;
+  justify-content: center; 
+  align-items: center; 
+  width: 100%; 
+  color: #121212;
+}
+
+
+.public-container {
+  width: 80%;
+  max-width: 1300px;
+  text-align: center;
+  padding: 50px;
+  background: rgba(64, 61, 61, 0.92);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.6s ease-in-out;
+  color: var(--text-color, rgb(0, 0, 0));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto; /* Center horizontally */
+}
+
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header */
+.public-container h1 {
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+}
+
+/* Clock */
+.clock {
+  font-size: 20px;
+  color: #ffcc00;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Logout Button */
+
+
+.logout-button:hover {
+  background: linear-gradient(135deg, #cc0000, #990000);
+  transform: scale(1.05);
+  box-shadow: 0px 6px 15px rgba(255, 0, 0, 0.5);
+}
+
+/* Feature Box */
+.feature-box {
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  background-color: #2e2c2c !important; /* Matches the background */
+  color: white; /* Ensures text remains visible */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Optional subtle border */
+}
+
+.feature-box:hover {
+  transform: translateY(-5px);
+}
+
+/* Button */
+.feature-box button {
+  border: none;
+  padding: 12px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.feature-box button:hover {
+  transform: scale(1.08);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .public-container {
+    width: 90%;
+    padding: 40px;
+  }
+  .feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .logout-button {
+    right: 30px;
+    font-size: 16px;
+    padding: 12px 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .public-container {
+    width: 95%;
+    padding: 30px;
+  }
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+  .logout-button {
+    top: 15px;
+    right: 20px;
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+}
+
+
+/* Ensure content does not overlap */
+.public-container {
+  margin-top: 70px; /* Push content down to avoid overlap */
+}
+
+
+.button-container {
+  position: absolute;
+  top: 30px;
+  right: 50px;
+  display: flex;
+  gap: 15px; /* Spacing between buttons */
+}
+
+.profile-button {
+  background: linear-gradient(135deg, #4d79ff, #0044ff);
+  color: white !important;
+  border: none;
+  padding: 7px 24px;
+  cursor: pointer;
+  border-radius: 7px;
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 10px rgba(0, 68, 255, 0.3);
+  top: 30px;
+  left: 50px;
+}
+
+.logout-button {
+  position: absolute;
+  background: linear-gradient(135deg, #ff4d4d, #ff0000);
+  color: rgb(255, 255, 255) !important;
+  border: none;
+  cursor: pointer;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.3);
+  margin-top: 50px;
+  margin-left: 100px;
+}
+
+.profile-button:hover {
+  background: linear-gradient(135deg, #0033cc, #002699);
+  transform: scale(1.05);
+  box-shadow: 0px 6px 15px rgba(0, 68, 255, 0.5);
+}
+

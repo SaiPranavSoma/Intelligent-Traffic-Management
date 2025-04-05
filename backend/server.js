@@ -53,10 +53,10 @@ const transporter = nodemailer.createTransport({
 
 // ✅ Register a New Public User
 app.post("/register", async (req, res) => {
-  const { name, email, phone, password, vehicle_count, vehicles } = req.body;
+  const { name, email, phone, password, license, vehicle_count, vehicles } = req.body;
   const role = "public";
 
-  if (!name || !email || !phone || !password || vehicle_count === undefined) {
+  if (!name || !email || !phone || !password || !license || vehicle_count === undefined) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -65,21 +65,31 @@ app.post("/register", async (req, res) => {
     if (result.length > 0) return res.status(400).json({ message: "Email already exists" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
     db.query(
-      "INSERT INTO users (name, email, phone, password, role, vehicle_count) VALUES (?, ?, ?, ?, ?, ?)", 
-      [name, email, phone, hashedPassword, role, vehicle_count], 
+      "INSERT INTO users (name, email, phone, password, license, role, vehicle_count) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [name, email, phone, hashedPassword, license, role, vehicle_count],
       (err, userResult) => {
-        if (err) return res.status(500).json({ message: "Registration failed" });
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ message: "Registration failed" });
+        }
 
         const userId = userResult.insertId;
-        
-        // Insert vehicle numbers
+
+        // Insert vehicle numbers into vehicles table
         if (vehicles && vehicles.length > 0) {
           const vehicleValues = vehicles.map(vehicle => [userId, vehicle]);
-          db.query("INSERT INTO vehicles (user_id, vehicle_number) VALUES ?", [vehicleValues], (err) => {
-            if (err) return res.status(500).json({ message: "Error saving vehicle details" });
-          });
+          db.query(
+            "INSERT INTO vehicles (user_id, vehicle_number) VALUES ?",
+            [vehicleValues],
+            (err) => {
+              if (err) {
+                console.error(err);
+                return res.status(500).json({ message: "Error saving vehicle details" });
+              }
+            }
+          );
         }
 
         res.status(201).json({ message: "User and vehicles registered successfully" });
@@ -87,6 +97,7 @@ app.post("/register", async (req, res) => {
     );
   });
 });
+
 
 // ✅ Login for Users
 app.post("/login", (req, res) => {
@@ -285,17 +296,30 @@ app.post("/api/file-challan", (req, res) => {
       return res.status(404).json({ message: "Vehicle number not found" });
     }
 
-    const userId = result[0].user_id; // Get user_id from the query result
+    const userId = result[0].user_id;
 
-    const insertChallanQuery =
-      "INSERT INTO challans (user_id, vehicle_number, reason, fine) VALUES (?, ?, ?, ?)";
-    
-    db.query(insertChallanQuery, [userId, vehicle_number, reason, fine], (err) => {
+    // Step 1: Get current challan count for that user
+    const countQuery = "SELECT COUNT(*) AS count FROM challans WHERE user_id = ?";
+    db.query(countQuery, [userId], (err, countResult) => {
       if (err) {
-        console.error("❌ Error inserting challan:", err);
-        return res.status(500).json({ message: "Failed to file challan" });
+        console.error("❌ Error counting challans:", err);
+        return res.status(500).json({ message: "Failed to count existing challans" });
       }
-      res.json({ message: "✅ Challan issued successfully!" });
+
+      const challanCount = countResult[0].count + 1; // Increment by 1
+
+      // Step 2: Insert new challan with challan_count
+      const insertChallanQuery = `
+        INSERT INTO challans (user_id, vehicle_number, reason, fine, challan_count)
+        VALUES (?, ?, ?, ?, ?)`;
+
+      db.query(insertChallanQuery, [userId, vehicle_number, reason, fine, challanCount], (err) => {
+        if (err) {
+          console.error("❌ Error inserting challan:", err);
+          return res.status(500).json({ message: "Failed to file challan" });
+        }
+        res.json({ message: "✅ Challan issued successfully!" });
+      });
     });
   });
 });
@@ -362,36 +386,92 @@ app.get("/api/view-challan/:vehicle_number", (req, res) => {
 
 
 app.get("/api/view-fines", async (req, res) => {
-  const { email } = req.query; // ✅ Get email from frontend request
+  const { email } = req.query;
 
   if (!email) {
-      return res.status(400).json({ error: "Email is required" });
+    return res.status(400).json({ error: "Email is required" });
   }
 
   try {
-      // 🔍 Step 1: Find the user ID using the email
-      const userQuery = "SELECT id FROM users WHERE email = ?";
-      db.query(userQuery, [email], (err, result) => {
-          if (err || result.length === 0) {
-              return res.status(404).json({ error: "User not found" });
-          }
+    // Step 1: Get user ID and license status
+    const userQuery = "SELECT id, license_status FROM users WHERE email = ?";
+    db.query(userQuery, [email], (err, userResult) => {
+      if (err || userResult.length === 0) {
+        return res.status(404).json({ error: "User not found" });
+      }
 
-          const userId = result[0].id;
+      const userId = userResult[0].id;
+      let licenseStatus = userResult[0].license_status;
+      let autoBlocked = false;
 
-          // 🔍 Step 2: Get fines including the payment status
-          const finesQuery = "SELECT challan_id, vehicle_number, reason, fine, timestamp, payment_status FROM challans WHERE user_id = ?";
-          db.query(finesQuery, [userId], (err, fines) => {
-              if (err) {
-                  return res.status(500).json({ error: "Error fetching fines" });
-              }
+      // Step 2: Get fines
+      const finesQuery = `
+        SELECT 
+          c.challan_id, 
+          c.vehicle_number, 
+          c.reason, 
+          c.fine, 
+          c.timestamp, 
+          c.payment_status, 
+          (SELECT COUNT(*) FROM challans WHERE vehicle_number = c.vehicle_number) AS challan_count
+        FROM challans c
+        WHERE c.user_id = ?;
+      `;
 
-              res.json(fines);
+      db.query(finesQuery, [userId], (err, fines) => {
+        if (err) {
+          return res.status(500).json({ error: "Error fetching fines" });
+        }
+
+        // Count total challans (across all vehicles)
+        const totalChallans = fines.reduce((sum, fine) => sum + fine.challan_count, 0);
+
+        // Auto block logic
+        if (totalChallans > 5 && licenseStatus !== "blocked") {
+          const updateStatusQuery = "UPDATE users SET license_status = 'blocked' WHERE id = ?";
+          db.query(updateStatusQuery, [userId], (err) => {
+            if (!err) {
+              licenseStatus = "blocked";
+              autoBlocked = true;
+            }
+            // Still respond even if update fails
+            return res.json({ fines, license_status: licenseStatus, auto_blocked: autoBlocked });
           });
+        } else {
+          // Return data without updating
+          return res.json({ fines, license_status: licenseStatus, auto_blocked: false });
+        }
+      });
+    });
+  } catch (error) {
+    console.error("Server error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
+
+
+app.post("/api/complete-traffic-video", async (req, res) => {
+  const { challan_id } = req.body;
+
+  if (!challan_id) {
+      return res.status(400).json({ error: "Challan ID is required" });
+  }
+
+  try {
+      const updateQuery = "UPDATE challans SET payment_status = 'completed' WHERE challan_id = ?";
+      db.query(updateQuery, [challan_id], (err, result) => {
+          if (err) {
+              return res.status(500).json({ error: "Database update failed" });
+          }
+          res.json({ success: true, message: "Payment status updated!" });
       });
   } catch (error) {
       res.status(500).json({ error: "Server error" });
   }
 });
+
 
 
 app.post("/api/update-payment", async (req, res) => {

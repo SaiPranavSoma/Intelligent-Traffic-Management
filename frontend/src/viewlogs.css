@@ -1,0 +1,164 @@
+/* Fullscreen container */
+.fullscreen-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: #272525;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow: hidden;
+}
+
+/* Heading */
+.heading {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: white;
+}
+
+/* Buttons container */
+.button-container {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+}
+
+/* General button styles */
+.button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+/* Public button */
+.public-btn {
+    background-color: #216bb6;
+    color: white;
+}
+
+.public-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Police button */
+.police-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.police-btn:hover {
+    background-color: #1e7e34;
+    transform: scale(1.05);
+}
+
+/* Back button */
+/* Back button (smaller size) */
+.back-btn {
+    background-color: #6c757d;
+    color: white;
+    padding: 6px 12px; /* Reduced padding */
+    font-size: 14px; /* Reduced font size */
+    border-radius: 4px;
+    width: auto; /* Ensures it only takes necessary space */
+    min-width: 80px; /* Keeps it reasonably sized */
+}
+
+.back-btn:hover {
+    background-color: #5a6268;
+    transform: scale(1.05);
+}
+
+
+/* Table container */
+.table-container {
+    width: 90%;
+    max-width: 1200px;
+    overflow-x: auto;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background-color: #343435;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Table wrapper to ensure full width */
+.table-wrapper {
+    width: 100%;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Table header */
+th {
+    background-color: #007bff;
+    color: white;
+    padding: 14px;
+    font-size: 18px;
+}
+
+/* Table data */
+td {
+    padding: 14px;
+    border-bottom: 1px solid #555;
+    text-align: center;
+    color: black;
+    font-size: 16px;
+}
+
+/* Alternate row background */
+tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Hover effect */
+tr:hover {
+    background-color: #e2e6ea;
+}
+
+/* Loading text */
+.loading {
+    font-size: 18px;
+    color: #ffcc00;
+}
+
+/* Error message */
+.error {
+    font-size: 18px;
+    color: #ff4d4d;
+}
+
+/* Desktop view adjustments */
+@media screen and (min-width: 1024px) {
+    .fullscreen-container {
+        padding: 50px;
+    }
+
+    .table-container {
+        padding: 30px;
+    }
+
+    .button {
+        font-size: 20px;
+        padding: 14px 24px;
+    }
+}
